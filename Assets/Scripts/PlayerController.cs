@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour {
 	private int score = 0;
 	private bool teleportable = true;
 	private Rigidbody rb;
+	public GameObject WinLoseBG;
+	public Text WinLoseText;
 	private GameObject teleportEntrance;
 	private GameObject teleportExit;
 	private GameObject[] objArr;
@@ -50,6 +52,10 @@ public class PlayerController : MonoBehaviour {
 			currentScene = SceneManager.GetActiveScene();
 			SceneManager.LoadScene(currentScene.name);
 		}
+		if (Input.GetKey(KeyCode.Escape))
+		{
+			SceneManager.LoadScene("menu");
+		}
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -64,6 +70,13 @@ public class PlayerController : MonoBehaviour {
 		{
 			health -= 1;
 			SetHealthText();
+			if (health <= 0)
+			{
+				WinLoseBG.SetActive(true);
+				WinLoseBG.GetComponent<Image>().color = Color.red;
+				WinLoseText.text = "Game Over!";
+				WinLoseText.color = Color.white;
+			}
 		}
 		if (other.gameObject.tag == "Teleporter" && teleportable == true)
 		{
@@ -79,7 +92,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (other.gameObject.tag == "Goal")
 		{
-			Debug.Log("You win!");
+			WinLoseBG.SetActive(true);
+			WinLoseBG.GetComponent<Image>().color = Color.green;
+			WinLoseText.text = "You Win!";
+			WinLoseText.color = Color.black;
 		}
 	}
 
