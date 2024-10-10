@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour {
 
 	private Button play, options, quit;
+	public Material trapMat, goalMat;
+	public Toggle colorblindMode;
 	// Use this for initialization
 	void Start () {
 		play = GameObject.Find("PlayButton").GetComponent<Button>();
@@ -15,10 +17,10 @@ public class MainMenu : MonoBehaviour {
 			Debug.Log("Could not find 'Play' button");
 		} else
 		{
-			play.onClick.AddListener(PlayButtonClick);
+			play.onClick.AddListener(PlayMaze);
 		}
 		quit = GameObject.Find("QuitButton").GetComponent<Button>();
-		quit.onClick.AddListener(QuitButtonClick);
+		quit.onClick.AddListener(QuitMaze);
 	}
 	
 	// Update is called once per frame
@@ -26,13 +28,18 @@ public class MainMenu : MonoBehaviour {
 		
 	}
 
-	void PlayButtonClick()
+	void PlayMaze()
 	{
+		if (colorblindMode == true)
+		{
+			trapMat.color = new Color32(255, 112, 0, 1);
+			goalMat.color = Color.blue;
+		}
 		Debug.Log("Play button clicked");
 		SceneManager.LoadScene("maze");
 	}
 
-	void QuitButtonClick()
+	void QuitMaze()
 	{
 		Debug.Log("Quit Game");
 		Application.Quit();
